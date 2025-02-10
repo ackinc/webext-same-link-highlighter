@@ -98,12 +98,30 @@ function positionArrow(arrow, element) {
   }
 }
 
+function normalizeUrl(url) {
+  // Create URL object to handle parsing
+  try {
+    const urlObj = new URL(url);
+    // Remove hash/fragment
+    urlObj.hash = "";
+    // Remove trailing slash if it exists
+    let normalized = urlObj.toString();
+    if (normalized.endsWith("/")) {
+      normalized = normalized.slice(0, -1);
+    }
+    return normalized;
+  } catch (e) {
+    // If URL parsing fails, return original
+    return url;
+  }
+}
+
 function highlightMatchingLinks(hoveredLink) {
-  const targetHref = hoveredLink.href;
+  const targetHref = normalizeUrl(hoveredLink.href);
   const arrows = [];
 
   document.querySelectorAll("a").forEach((link) => {
-    if (link.href === targetHref && link !== hoveredLink) {
+    if (normalizeUrl(link.href) === targetHref && link !== hoveredLink) {
       link.classList.add("doc-link-highlight");
 
       // If link is not in viewport, create an arrow pointing to it
