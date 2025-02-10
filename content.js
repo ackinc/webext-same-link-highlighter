@@ -56,6 +56,7 @@ function positionArrow(arrow, element) {
   const elementRect = element.getBoundingClientRect();
   const viewportHeight = window.innerHeight;
   const viewportWidth = window.innerWidth;
+  const OFFSET = 40;
 
   // Calculate element's center point
   const elementX = elementRect.left + elementRect.width / 2;
@@ -63,37 +64,37 @@ function positionArrow(arrow, element) {
 
   // Determine which edge to place the arrow on
   if (elementY < 0) {
-    // Element is above viewport
-    arrow.style.top = "20px";
+    // Element is above viewport - point arrow upward
+    arrow.style.top = `${OFFSET}px`;
     arrow.style.left = `${Math.max(
-      20,
-      Math.min(viewportWidth - 20, elementX)
+      OFFSET,
+      Math.min(viewportWidth - OFFSET, elementX)
     )}px`;
-    arrow.style.transform = "rotate(-90deg)";
+    // arrow.style.transform = "rotate(180deg)";
   } else if (elementY > viewportHeight) {
-    // Element is below viewport
-    arrow.style.top = `${viewportHeight - 20}px`;
+    // Element is below viewport - point arrow downward
+    arrow.style.bottom = `${OFFSET}px`;
     arrow.style.left = `${Math.max(
-      20,
-      Math.min(viewportWidth - 20, elementX)
-    )}px`;
-    arrow.style.transform = "rotate(90deg)";
-  } else if (elementX < 0) {
-    // Element is to the left
-    arrow.style.left = "20px";
-    arrow.style.top = `${Math.max(
-      20,
-      Math.min(viewportHeight - 20, elementY)
-    )}px`;
-    arrow.style.transform = "rotate(0deg)";
-  } else {
-    // Element is to the right
-    arrow.style.left = `${viewportWidth - 20}px`;
-    arrow.style.top = `${Math.max(
-      20,
-      Math.min(viewportHeight - 20, elementY)
+      OFFSET,
+      Math.min(viewportWidth - OFFSET, elementX)
     )}px`;
     arrow.style.transform = "rotate(180deg)";
+  } else if (elementX < 0) {
+    // Element is to the left - point arrow leftward
+    arrow.style.left = `${OFFSET}px`;
+    arrow.style.top = `${Math.max(
+      OFFSET,
+      Math.min(viewportHeight - OFFSET, elementY)
+    )}px`;
+    arrow.style.transform = "rotate(90deg)";
+  } else {
+    // Element is to the right - point arrow rightward
+    arrow.style.right = `${OFFSET}px`;
+    arrow.style.top = `${Math.max(
+      OFFSET,
+      Math.min(viewportHeight - OFFSET, elementY)
+    )}px`;
+    arrow.style.transform = "rotate(-90deg)";
   }
 }
 
@@ -140,11 +141,12 @@ style.textContent = `
     position: fixed;
     width: 0;
     height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 15px solid red;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #ffeb3b;
     z-index: 10000;
     pointer-events: none;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
   }
 `;
 document.head.appendChild(style);
