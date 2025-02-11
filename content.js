@@ -103,7 +103,7 @@ function normalizeUrl(url) {
   try {
     const urlObj = new URL(url);
     // Remove hash/fragment
-    urlObj.hash = "";
+    // urlObj.hash = "";
     // Remove trailing slash if it exists
     let normalized = urlObj.toString();
     if (normalized.endsWith("/")) {
